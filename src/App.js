@@ -6,6 +6,7 @@ import Auth from './pages/Auth';
 import { getToken } from "./utils/token";
 import AuthContext from "./context/AuthContext";
 import Home from "./pages/Home"
+import Navigation from "./routes/Navigation";
 
 function App() {
   const [auth, setAuth] = useState(undefined);
@@ -31,11 +32,10 @@ function App() {
       setUser
     }), [auth]
   )
-
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={authData}>
-        {!auth ? <Auth /> : <Home />}
+        {!auth ? <Auth /> : <Navigation />}
         <ToastContainer
           position="top-center"
           hideProgressBar
