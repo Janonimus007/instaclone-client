@@ -3,9 +3,8 @@ import client from "./config/apollo"
 import { ToastContainer } from "react-toastify"
 import { useEffect, useMemo, useState } from 'react';
 import Auth from './pages/Auth';
-import { getToken } from "./utils/token";
+import { decodeToken, getToken } from "./utils/token";
 import AuthContext from "./context/AuthContext";
-import Home from "./pages/Home"
 import Navigation from "./routes/Navigation";
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
 
   useEffect(() => {
     const token = getToken()
-    token ? setAuth(token) : setAuth(null);
+    token ? setAuth(decodeToken(token)) : setAuth(null);
   }, []);
 
 
@@ -32,6 +31,9 @@ function App() {
       setUser
     }), [auth]
   )
+
+  if (auth === undefined) return null;
+
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={authData}>
